@@ -1,0 +1,23 @@
+# .clang-format
+BasedOnStyle: LLVM
+
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+
+# Pointer style: type* name
+PointerAlignment: Left
+
+# Braces always on new line (Allman style)
+BreakBeforeBraces: Allman
+
+# Keep code readable
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+# Alignment and spacing
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+ColumnLimit: 100
