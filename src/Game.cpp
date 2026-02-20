@@ -107,29 +107,26 @@ void Game::KeyBoardInput()
       is_running = false;
       break;
     case SDL_KEYDOWN:
-      switch (sdl_event.key.keysym.sym)
+      if (sdl_event.key.keysym.sym == SDLK_ESCAPE)
       {
-      case SDLK_ESCAPE:
         is_running = false;
-        break;
-      case SDLK_w:
-        tank_velocity.y -= 5;
-        break;
-      case SDLK_s:
-        tank_velocity.y += 5;
-        break;
-      case SDLK_a:
-        tank_velocity.x -= 5;
-        break;
-      case SDLK_d:
-        tank_velocity.x += 5;
-        break;
       }
-
-      break;
-
-    default:
-      break;
+      if (sdl_event.key.keysym.sym == SDLK_w)
+      {
+        tank_velocity.y -= 5;
+      }
+      if (sdl_event.key.keysym.sym == SDLK_s)
+      {
+        tank_velocity.y += 5;
+      }
+      if (sdl_event.key.keysym.sym == SDLK_d)
+      {
+        tank_velocity.x += 5;
+      }
+      if (sdl_event.key.keysym.sym == SDLK_a)
+      {
+        tank_velocity.x -= 5;
+      }
     }
   }
 }
