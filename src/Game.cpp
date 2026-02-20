@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Logger.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
@@ -9,23 +10,23 @@ glm::vec2 tank_velocity;
 
 Game::Game()
 {
-  std::cout << "Game Constructor Called\n";
+  Logger::Info("Game Constructor Called");
   is_running = false;
 }
 
 Game::~Game()
 {
-  std::cout << "Game Destructor Called\n";
+  Logger::Info("Game Destructor Called");
 }
 
 void Game::Initialize()
 {
-  std::cout << "Game Initializer Called\n";
+  Logger::Info("Game Initializer Called");
   uint32_t sdl_res = SDL_Init(SDL_INIT_EVERYTHING);
 
   if (sdl_res != 0)
   {
-    std::cerr << "Failed to Initialize SDL";
+    Logger::Error("Failed to Initialize SDL");
     return;
   }
 
@@ -36,14 +37,14 @@ void Game::Initialize()
 
   if (!window)
   {
-    std::cerr << "Error in creation of window\n";
+    Logger::Error("Error in creation of window");
     return;
   }
 
   renderer = SDL_CreateRenderer(window, -1, 0);
   if (!renderer)
   {
-    std::cerr << "Error in creation of Renderer\n";
+    Logger::Error("Error in creation of Renderer");
     return;
   }
 
@@ -58,7 +59,7 @@ void Game::Destroy()
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
-  std::cout << "Game Destroyer Called\n";
+  Logger::Info("Game Destroyer Called");
 }
 
 void Game::Setup()
@@ -73,7 +74,7 @@ void Game::Setup()
 
 void Game::Run()
 {
-  std::cout << "Game Runner Called\n";
+  Logger::Info("Game Runner Called");
   Setup();
 
   while (is_running)
@@ -144,7 +145,25 @@ void Game::GetDisplayModeDimenesions()
 
 void Game::Update()
 {
-  tank_pos += tank_velocity;
+  // while (!SDL_TICKS_PASSED(SDL_GetTicks(), ms_passed + MILLISECONDS_PER_FRAME));
+
+  int start_time = SDL_GetTicks();
+  int delta = start_time - ms_passed;
+  int time_to_delay = MILLISECONDS_PER_FRAME - delta;
+
+  if (CAP_FPS)
+  {
+    if (time_to_delay <= MILLISECONDS_PER_FRAME && time_to_delay > 0)
+    {
+      SDL_Delay(time_to_delay);
+    }
+  }
+
+  delta_time = delta / 1000.0;
+  ms_passed = start_time;
+
+  tank_pos.x += 1000 * delta_time;
+  tank_pos.y += tank_velocity.y * delta_time;
 }
 
 void Game::Render()
