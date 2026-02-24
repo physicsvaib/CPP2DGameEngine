@@ -1,8 +1,8 @@
 # .clang-format
 BasedOnStyle: LLVM
 
-IndentWidth: 2
-TabWidth: 2
+IndentWidth: 4
+TabWidth: 4
 UseTab: Never
 
 # Pointer style: type* name
