@@ -6,7 +6,7 @@ INCLUDE_LIBRARIES = -lSDL2 -llua5.3 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 INCLUDE_DIRECTORIES = -I"./libs/"
 OUTPUT = gameengine
 
-run: build
+run: 
 	./$(OUTPUT)
 
 build:

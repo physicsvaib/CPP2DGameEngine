@@ -70,6 +70,12 @@ void Game::Setup()
     SDL_FreeSurface(tank_surface);
 
     tank_pos = glm::vec2(20, 20);
+
+    // TODO:
+    // Entity tank = registry.CreateEntity();
+    // tank.AddComponent<TransformComponent>();
+    // tank.AddComponent<BoxCollisionComponent>();
+    // tank.AddComponent<SpriteComponent>(SpriteReferences.TANK_FILE);
 }
 
 void Game::Run()
@@ -161,6 +167,8 @@ void Game::Update()
 
     delta_time = delta / 1000.0;
     ms_passed = start_time;
+
+    // TODO: MovementSystem.Update()
 
     tank_pos.x += 1000 * delta_time;
     tank_pos.y += tank_velocity.y * delta_time;
