@@ -63,3 +63,5 @@ Makefile
 *.log
 *.stackdump
 gameengine
+.vscode/browse.vc.db
+.vscode/browse.vc.db
