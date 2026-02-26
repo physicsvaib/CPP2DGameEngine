@@ -16,6 +16,8 @@
 
 # Debugger Files
 *.pdb
+*.dSYM/
+*.dwo
 
 # Compiled Dynamic libraries
 *.so
@@ -37,5 +39,26 @@
 *.out
 *.app
 
-# debug information files
-*.dwo
+# Build directories
+/build/
+/bin/
+/lib/
+/dist/
+/Debug/
+/Release/
+
+# VS Code specific
+.vscode/
+*.code-workspace
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Other system files
+*.swp
+*.tmp
+*.log
+*.stackdump
