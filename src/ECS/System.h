@@ -1,6 +1,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include "Component.h"
 #include "Entity.h"
 #include "Signature.h"
 #include <vector>
@@ -18,9 +19,17 @@ class System
     const std::vector<Entity>& GetSystemEntities() const;
     const Signature& GetComponentSignature() const;
 
+    template <typename COMP> void RequireComponent();
+
   private:
     Signature componentSignature;
     std::vector<Entity> entities;
 };
+
+template <typename TComponent> void System::RequireComponent()
+{
+    const auto componentID = Component<TComponent>::GetID();
+    componentSignature.set(componentID);
+}
 
 #endif

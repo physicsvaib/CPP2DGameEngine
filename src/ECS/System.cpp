@@ -1,4 +1,5 @@
 #include "System.h"
+#include <algorithm>
 
 void System::AddEntityToSystem(Entity entity)
 {
@@ -7,6 +8,9 @@ void System::AddEntityToSystem(Entity entity)
 
 void System::RemoveEntityFromSystem(Entity entity)
 {
+    entities.erase(std::remove_if(entities.begin(), entities.end(), [&entity](Entity other)
+                                  { return entity.GetID() == other.GetID(); }));
+
     // entities.erase();
 }
 
