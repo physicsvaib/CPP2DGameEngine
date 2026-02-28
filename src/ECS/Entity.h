@@ -7,6 +7,13 @@ class Entity
     Entity(int id) : id(id) {}
     int GetID() const;
 
+    bool operator==(const Entity& other) const
+    {
+        return other.GetID() == this->GetID();
+    }
+
+    Entity& operator=(const Entity& other) = default;
+
   private:
     int id;
 };
