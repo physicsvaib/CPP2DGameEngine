@@ -73,12 +73,7 @@ template <typename TComponent> void Registry::RemoveComponent(Entity entity)
     const auto compID = Component<TComponent>::GetID();
     const auto entityID = entity.GetID();
 
-    if (!componentPools[compID])
-        return;
-
-    Pool<TComponent>* compPool = Pool<TComponent>(componentPools[compID]);
-    delete compPool->Get(entityID);
-    compPool->Set(entityID, nullptr);
+    entityComponentSignature[entityID].set(compID, false);
 }
 
 template <typename TComponent> bool Registry::HasComponenet(Entity entity)
