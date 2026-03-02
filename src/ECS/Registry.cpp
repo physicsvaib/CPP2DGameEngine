@@ -11,7 +11,21 @@ Entity Registry::CreateEntity()
     return new_entity;
 }
 
-void Registry::AddEntityToSystem(Entity newEntity) {}
+void Registry::AddEntityToSystem(Entity newEntity)
+{
+    auto entityId{newEntity.GetID()};
+    const Signature& signature = entityComponentSignature[entityId];
+
+    for (auto system : systems)
+    {
+        bool isIntersted = (system.second->GetComponentSignature() & signature) == signature;
+
+        if (isIntersted)
+        {
+            system.second->AddEntityToSystem(newEntity);
+        }
+    }
+}
 
 void Registry::Update()
 {
