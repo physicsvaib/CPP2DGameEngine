@@ -19,6 +19,8 @@ class Entity
         return GetID() < other.GetID();
     }
 
+    Registry* parentRegistry;
+
   private:
     int id;
 };

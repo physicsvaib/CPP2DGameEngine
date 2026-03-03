@@ -1,5 +1,5 @@
-#include "../Logger/Logger.h"
 #include "Registry.h"
+#include "../Logger/Logger.h"
 
 Entity Registry::CreateEntity()
 {
