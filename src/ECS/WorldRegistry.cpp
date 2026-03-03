@@ -1,12 +1,18 @@
-#include "Registry.h"
 #include "../Logger/Logger.h"
+#include "Registry.h"
 
 Entity Registry::CreateEntity()
 {
-    Entity new_entity{numEntities++};
+    int currentIndex = numEntities++;
+    Entity new_entity{currentIndex};
     entitiesToBeAdded.insert(new_entity);
 
-    Logger::Info("Created a new Entity with id " + std::to_string(numEntities));
+    if (numEntities >= entityComponentSignature.size())
+    {
+        entityComponentSignature.resize(currentIndex + 1);
+    }
+
+    Logger::Info("Created a new Entity with id " + std::to_string(currentIndex));
 
     return new_entity;
 }
@@ -33,6 +39,10 @@ void Registry::Update()
     {
         AddEntityToSystem(entity);
     }
-
     entitiesToBeAdded.clear();
+
+    // for (Entity entity : entitiesToBeRemoved)
+    // {
+    //     Remove
+    // }
 }

@@ -1,9 +1,11 @@
 #ifndef REGISTRY_H
 #define REGISTRY_H
 
+#include "../Logger/Logger.h"
 #include "Pool.h"
 #include "Signature.h"
 #include "System.h"
+#include <memory>
 #include <set>
 #include <typeindex>
 #include <unordered_map>
@@ -34,12 +36,10 @@ class Registry
     std::set<Entity> entitiesToBeAdded;
     std::set<Entity> entitiesToBeRemoved;
 
-    std::vector<IPool*> componentPools;
+    std::vector<std::shared_ptr<IPool>> componentPools;
     std::vector<Signature> entityComponentSignature;
-    std::unordered_map<std::type_index, System*> systems;
+    std::unordered_map<std::type_index, std::shared_ptr<System>> systems;
 };
-
-#endif
 
 template <typename TComponent, typename... TArgs>
 void Registry::AddComponent(Entity entity, TArgs&&... args)
@@ -54,10 +54,10 @@ void Registry::AddComponent(Entity entity, TArgs&&... args)
 
     if (!componentPools[componentID])
     {
-        componentPools[componentID] = new Pool<TComponent>();
+        componentPools[componentID] = std::make_shared<Pool<TComponent>>();
     }
 
-    Pool<TComponent>* pool = Pool<TComponent>(componentPools[componentID]);
+    auto pool = std::static_pointer_cast<Pool<TComponent>>(componentPools[componentID]);
 
     if (pool->GetSize() <= entityID)
     {
@@ -68,6 +68,9 @@ void Registry::AddComponent(Entity entity, TArgs&&... args)
     pool->Set(entityID, comp);
 
     entityComponentSignature[entityID].set(componentID);
+
+    Logger::Info("Comp Added " + std::to_string(componentID) + " to entity " +
+                 std::to_string(entityID));
 }
 
 template <typename TComponent> void Registry::RemoveComponent(Entity entity)
@@ -88,7 +91,7 @@ template <typename TComponent> bool Registry::HasComponenet(Entity entity)
 
 template <typename TSystem, typename... TArgs> void Registry::AddSystem(TArgs&&... args)
 {
-    TSystem* newSystem(new TSystem(std::forward<TArgs>(args)...));
+    std::shared_ptr<TSystem> newSystem = std::make_shared<TSystem>(std::forward<TArgs>(args)...);
     auto typeId = std::type_index(typeid(TSystem));
     systems.insert(std::make_pair(typeId, newSystem));
 }
@@ -100,7 +103,6 @@ template <typename TSystem> void Registry::RemoveSystem()
         return;
 
     systems.erase(typeId);
-    systems.at()
 }
 
 template <typename TSystem> bool Registry::HasSystem() const
@@ -112,5 +114,7 @@ template <typename TSystem> bool Registry::HasSystem() const
 template <typename TSystem> TSystem& Registry::GetSystem() const
 {
     auto system = systems.find(std::type_index(typeid(TSystem)));
-    return *(std::static_pointer_cast<TSystem>(systems->second));
+    return *(std::static_pointer_cast<TSystem>(system->second));
 }
+
+#endif

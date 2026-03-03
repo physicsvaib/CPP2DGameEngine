@@ -13,7 +13,7 @@ class Entity
     }
 
     Entity& operator=(const Entity& other) = default;
-    ;
+
     bool operator<(const Entity& other) const
     {
         return GetID() < other.GetID();

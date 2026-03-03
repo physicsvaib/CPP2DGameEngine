@@ -37,11 +37,12 @@ class Logger
   public:
     static void Info(const std::string& message);
     static void Error(const std::string& description);
+    static void Warning(const std::string& description);
     static std::vector<LogEntry> messages;
-    static std::string current_time();
+    static std::string CurrentTime();
 
   private:
-    static void print_colored(const std::string& text, const MessageFormat& format);
+    static void PrintColored(const std::string& text, const MessageFormat& format);
 };
 
 #endif

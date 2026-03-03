@@ -11,15 +11,20 @@ std::vector<LogEntry> Logger::messages;
 
 void Logger::Info(const std::string& message)
 {
-    print_colored(message, info);
+    PrintColored(message, info);
 }
 
 void Logger::Error(const std::string& description)
 {
-    print_colored(description, error);
+    PrintColored(description, error);
 }
 
-std::string Logger::current_time()
+void Logger::Warning(const std::string& description)
+{
+    PrintColored(description, warning);
+}
+
+std::string Logger::CurrentTime()
 {
     time_t t = time(nullptr);
     struct tm* now = localtime(&t);
@@ -28,11 +33,11 @@ std::string Logger::current_time()
     return std::string(buffer);
 }
 
-void Logger::print_colored(const std::string& text, const MessageFormat& format)
+void Logger::PrintColored(const std::string& text, const MessageFormat& format)
 {
     LogEntry entry;
     entry.type = format.type;
-    entry.message = "[" + format.StartLog + " " + current_time() + "] " + text;
+    entry.message = "[" + format.StartLog + " " + CurrentTime() + "] " + text;
     messages.push_back({format.type, text});
     std::cout << "\033[" << static_cast<int>(format.color) << "m" << entry.message << "\033[0m"
               << std::endl;

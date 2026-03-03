@@ -1,17 +1,17 @@
 #include "Game.h"
+#include "../Components/RigidbodyComponent.h"
+#include "../Components/TransformComponent.h"
 #include "../Logger/Logger.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
 #include <iostream>
 
-glm::vec2 tank_pos;
-glm::vec2 tank_velocity;
-
 Game::Game()
 {
     Logger::Info("Game Constructor Called");
     is_running = false;
+    registry = std::make_unique<Registry>();
 }
 
 Game::~Game()
@@ -55,7 +55,7 @@ void Game::Initialize()
 
 void Game::Destroy()
 {
-    SDL_DestroyTexture(tank_texture);
+    // SDL_DestroyTexture(tank_texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -65,11 +65,10 @@ void Game::Destroy()
 void Game::Setup()
 {
 
-    SDL_Surface* tank_surface = IMG_Load("./assets/images/tank-tiger-right.png");
-    tank_texture = SDL_CreateTextureFromSurface(renderer, tank_surface);
-    SDL_FreeSurface(tank_surface);
-
-    tank_pos = glm::vec2(20, 20);
+    Entity tank = registry->CreateEntity();
+    registry->AddComponent<TransformComponent>(tank, glm::vec2(11.0, 33.0), glm::vec2(1.0, 1.0),
+                                               0.0);
+    registry->AddComponent<RigidbodyComponent>(tank, glm::vec2(50.0, 0.0));
 
     // TODO:
     // Entity tank = registry.CreateEntity();
@@ -101,7 +100,6 @@ void Game::KeyBoardInput()
     // Make a better method on this
     SDL_Event sdl_event;
 
-    tank_velocity = glm::vec2(0, 0);
     // using a while loop for getting over multiple events
     // ghosting is the best case i feel
     // ok i checked not ghosting, its the queue of inputs that build up
@@ -117,22 +115,6 @@ void Game::KeyBoardInput()
             if (sdl_event.key.keysym.sym == SDLK_ESCAPE)
             {
                 is_running = false;
-            }
-            if (sdl_event.key.keysym.sym == SDLK_w)
-            {
-                tank_velocity.y -= 5;
-            }
-            if (sdl_event.key.keysym.sym == SDLK_s)
-            {
-                tank_velocity.y += 5;
-            }
-            if (sdl_event.key.keysym.sym == SDLK_d)
-            {
-                tank_velocity.x += 5;
-            }
-            if (sdl_event.key.keysym.sym == SDLK_a)
-            {
-                tank_velocity.x -= 5;
             }
         }
     }
@@ -151,8 +133,13 @@ void Game::GetDisplayModeDimenesions()
 
 void Game::Update()
 {
-    // while (!SDL_TICKS_PASSED(SDL_GetTicks(), ms_passed + MILLISECONDS_PER_FRAME));
+    TimeLogic();
 
+    // TODO: MovementSystem.Update()
+}
+
+void Game::TimeLogic()
+{
     int start_time = SDL_GetTicks();
     int delta = start_time - ms_passed;
     int time_to_delay = MILLISECONDS_PER_FRAME - delta;
@@ -167,20 +154,12 @@ void Game::Update()
 
     delta_time = delta / 1000.0;
     ms_passed = start_time;
-
-    // TODO: MovementSystem.Update()
-
-    tank_pos.x += 1000 * delta_time;
-    tank_pos.y += tank_velocity.y * delta_time;
 }
 
 void Game::Render()
 {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, 0);
     SDL_RenderClear(renderer);
-
-    SDL_Rect player_rect = {static_cast<int>(tank_pos.x), static_cast<int>(tank_pos.y), 32, 32};
-    SDL_RenderCopy(renderer, tank_texture, NULL, &player_rect);
 
     SDL_RenderPresent(renderer);
 }
