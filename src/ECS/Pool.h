@@ -49,7 +49,7 @@ template <typename TComponent> class Pool : public IPool
         data[index] = comp;
     }
 
-    TComponent& Get(int index) const
+    TComponent& Get(int index)
     {
         return static_cast<TComponent&>(data[index]);
     }

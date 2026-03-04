@@ -4,18 +4,20 @@
 Entity Registry::CreateEntity()
 {
     int currentIndex = numEntities++;
-    Entity new_entity{currentIndex};
-    entitiesToBeAdded.insert(new_entity);
+    Entity newEntity{currentIndex};
+    newEntity.parent = this;
+    entitiesToBeAdded.insert(newEntity);
 
-    if (numEntities >= entityComponentSignature.size())
+    if (static_cast<uint>(numEntities) >= entityComponentSignature.size())
     {
         entityComponentSignature.resize(currentIndex + 1);
     }
 
     Logger::Info("Created a new Entity with id " + std::to_string(currentIndex));
 
-    return new_entity;
+    return newEntity;
 }
+#include "System.h"
 
 void Registry::AddEntityToSystem(Entity newEntity)
 {

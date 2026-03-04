@@ -19,8 +19,37 @@ class Entity
         return GetID() < other.GetID();
     }
 
+    class Registry* parent;
+
+    template <typename TComponent, typename... TArgs> void AddComponent(TArgs... args);
+    template <typename TComponent> void RemoveComponent();
+    template <typename TComponent> bool HasComponent();
+    template <typename TComponent> TComponent& GetComponent();
+
   private:
     int id;
 };
+
+#include "Registry.h"
+
+template <typename TComponent, typename... TArgs> void Entity::AddComponent(TArgs... args)
+{
+    parent->template AddComponent<TComponent>(*this, std::forward<TArgs>(args)...);
+}
+
+template <typename TComponent> void Entity::RemoveComponent()
+{
+    parent->template RemoveComponent<TComponent>(*this);
+}
+
+template <typename TComponent> bool Entity::HasComponent()
+{
+    return parent->template HasComponenet<TComponent>(*this);
+}
+
+template <typename TComponent> TComponent& Entity::GetComponent()
+{
+    return parent->template GetComponenet<TComponent>(*this);
+}
 
 #endif

@@ -19,7 +19,7 @@ class System
     const std::vector<Entity>& GetSystemEntities() const;
     const Signature& GetComponentSignature() const;
 
-    template <typename COMP> void RequireComponent();
+    template <typename TComponent> void RequireComponent();
 
   private:
     Signature componentSignature;
