@@ -5,7 +5,7 @@
 
 const int FPS = 3;
 const int MILLISECONDS_PER_FRAME = 1000 / FPS;
-const bool CAP_FPS = false;
+const bool CAP_FPS = true;
 
 class Game
 {
@@ -31,7 +31,7 @@ class Game
 
     bool is_running;
     struct SDL_Texture* tank_texture;
-    double delta_time = 0;
+    double deltaTime = 0;
 
     int window_width;
     int window_height;

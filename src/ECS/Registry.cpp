@@ -17,6 +17,7 @@ Entity Registry::CreateEntity()
 
     return newEntity;
 }
+
 #include "System.h"
 
 void Registry::AddEntityToSystem(Entity newEntity)

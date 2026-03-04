@@ -1,0 +1,14 @@
+#ifndef RENDERSYSTEM_H
+#define RENDERSYSTEM_H
+
+#include "../ECS/System.h"
+#include "SDL2/SDL.h"
+
+class RenderSystem : public System
+{
+  public:
+    RenderSystem();
+    void Update(SDL_Renderer* renderer);
+};
+
+#endif

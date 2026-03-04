@@ -5,7 +5,6 @@
 
 struct RigidbodyComponent
 {
-  private:
     glm::vec2 velocity;
 
   public:

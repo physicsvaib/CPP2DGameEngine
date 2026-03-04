@@ -6,12 +6,8 @@
 class MovementSystem : public System
 {
   public:
-    MovementSystem() {}
-
-    void Update()
-    {
-        // this will be our loop
-    }
+    MovementSystem();
+    void Update(double deltaTime);
 };
 
 #endif
