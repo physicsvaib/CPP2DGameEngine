@@ -4,23 +4,27 @@
 
 RenderSystem::RenderSystem()
 {
-    RequireComponent<TransformComponent>();
-    RequireComponent<SpriteComponent>();
+    // RequireComponent<TransformComponent>();
+    // RequireComponent<SpriteComponent>();
 }
 
 void RenderSystem::Update(SDL_Renderer* renderer)
 {
 
-    for (auto entity : GetSystemEntities())
-    {
-        const auto transform = entity.GetComponent<TransformComponent>();
-        const auto sprite = entity.GetComponent<SpriteComponent>();
+    Logger::Info("Working on Render");
+    SDL_Rect rect{50, 50, 50, 50};
+    SDL_RenderFillRect(renderer, &rect);
 
-        Logger::Info("Trying to draw");
+    // for (auto entity : GetSystemEntities())
+    // {
+    //     const auto transform = entity.GetComponent<TransformComponent>();
+    //     const auto sprite = entity.GetComponent<SpriteComponent>();
 
-        SDL_Rect rect{static_cast<int>(transform.location.x),
-                      static_cast<int>(transform.location.y), sprite.width, sprite.height};
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderFillRect(renderer, &rect);
-    }
+    //     Logger::Info("Trying to draw");
+
+    //     SDL_Rect rect{static_cast<int>(transform.location.x),
+    //                   static_cast<int>(transform.location.y), sprite.width, sprite.height};
+    //     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    //     SDL_RenderFillRect(renderer, &rect);
+    // }
 }

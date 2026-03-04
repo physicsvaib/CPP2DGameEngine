@@ -28,6 +28,8 @@ void Registry::AddEntityToSystem(Entity newEntity)
     for (auto system : systems)
     {
         bool isIntersted = (system.second->GetComponentSignature() & signature) == signature;
+        Logger::Warning(std::to_string(isIntersted) + " for " +
+                        system.second->GetComponentSignature().to_string());
 
         if (isIntersted)
         {
