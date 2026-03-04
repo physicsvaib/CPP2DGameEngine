@@ -27,9 +27,11 @@ void Registry::AddEntityToSystem(Entity newEntity)
 
     for (auto system : systems)
     {
-        bool isIntersted = (system.second->GetComponentSignature() & signature) == signature;
+        bool isIntersted = (signature & system.second->GetComponentSignature()) ==
+                           system.second->GetComponentSignature();
         Logger::Warning(std::to_string(isIntersted) + " for " +
-                        system.second->GetComponentSignature().to_string());
+                        system.second->GetComponentSignature().to_string() + " for " +
+                        std::to_string(entityId) + " actual " + signature.to_string());
 
         if (isIntersted)
         {

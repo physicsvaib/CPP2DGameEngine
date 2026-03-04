@@ -11,10 +11,8 @@ MovementSystem::MovementSystem()
 void MovementSystem::Update(double deltaTime)
 {
 
-    Logger::Info(std::to_string(GetSystemEntities().size()));
     for (Entity entity : GetSystemEntities())
     {
-        Logger::Info(std::to_string(entity.GetID()));
         auto& transform = entity.GetComponent<TransformComponent>();
         const auto rigidbody = entity.GetComponent<RigidbodyComponent>();
 

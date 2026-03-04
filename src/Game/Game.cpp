@@ -72,7 +72,7 @@ void Game::Setup()
 
     tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0), 10.0);
     tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
-    // tank.AddComponent<SpriteComponent>(100, 100);
+    tank.AddComponent<SpriteComponent>(100, 100);
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
 }
@@ -135,7 +135,6 @@ void Game::Update()
 {
     TimeLogic();
     registry->GetSystem<MovementSystem>().Update(deltaTime);
-    // registry->GetSystem<RenderSystem>().Update(renderer);
 
     registry->Update();
 
@@ -164,6 +163,7 @@ void Game::Render()
 {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, 0);
     SDL_RenderClear(renderer);
+    registry->GetSystem<RenderSystem>().Update(renderer);
 
     SDL_RenderPresent(renderer);
 }

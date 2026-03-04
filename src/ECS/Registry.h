@@ -132,7 +132,7 @@ template <typename TSystem> bool Registry::HasSystem() const
 
 template <typename TSystem> TSystem& Registry::GetSystem() const
 {
-    Logger::Info("In System ref");
+    // Logger::Info("In System ref");
     auto system = systems.find(std::type_index(typeid(TSystem)));
     return *(std::static_pointer_cast<TSystem>(system->second));
 }
