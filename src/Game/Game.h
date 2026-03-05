@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "../Constants/AssetStore.h"
 #include "../ECS/Registry.h"
 
 const int FPS = 3;
@@ -39,6 +40,7 @@ class Game
     int ms_passed = 0;
 
     std::unique_ptr<Registry> registry;
+    std::unique_ptr<AssetStore> assetStore;
     void TimeLogic();
 };
 

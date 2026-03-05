@@ -12,19 +12,20 @@
 
 Game::Game()
 {
-    Logger::Info("Game Constructor Called");
+    Logger::Log("Game Constructor Called");
     is_running = false;
     registry = std::make_unique<Registry>();
+    assetStore = std::make_unique<AssetStore>();
 }
 
 Game::~Game()
 {
-    Logger::Info("Game Destructor Called");
+    Logger::Log("Game Destructor Called");
 }
 
 void Game::Initialize()
 {
-    Logger::Info("Game Initializer Called");
+    Logger::Log("Game Initializer Called");
     uint32_t sdl_res = SDL_Init(SDL_INIT_EVERYTHING);
 
     if (sdl_res != 0)
@@ -62,7 +63,7 @@ void Game::Destroy()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
-    Logger::Info("Game Destroyer Called");
+    Logger::Log("Game Destroyer Called");
 }
 
 void Game::Setup()
@@ -85,7 +86,6 @@ void Game::Setup()
 
 void Game::Run()
 {
-    Logger::Info("Game Runner Called");
     Setup();
 
     while (is_running)

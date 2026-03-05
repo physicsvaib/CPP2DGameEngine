@@ -18,8 +18,5 @@ void MovementSystem::Update(double deltaTime)
 
         transform.location.x += rigidbody.velocity.x * deltaTime;
         transform.location.y += rigidbody.velocity.y * deltaTime;
-
-        Logger::Info("Current Location: " + std::to_string(transform.location.x) + " " +
-                     std::to_string(transform.location.y));
     }
 }

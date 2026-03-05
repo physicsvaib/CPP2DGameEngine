@@ -16,7 +16,8 @@ enum LogType
 {
     LOG_INFO,
     LOG_WARNING,
-    LOG_ERROR
+    LOG_ERROR,
+    LOG_LOG
 };
 
 struct MessageFormat
@@ -38,6 +39,8 @@ class Logger
     static void Info(const std::string& message);
     static void Error(const std::string& description);
     static void Warning(const std::string& description);
+    static void Log(const std::string& description);
+
     static std::vector<LogEntry> messages;
     static std::string CurrentTime();
 

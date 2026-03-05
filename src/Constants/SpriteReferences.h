@@ -1,12 +1,28 @@
 #ifndef SPRITEREFERENCES_H
 #define SPRITEREFERENCES_H
 
-#include <string>
-
-class SpriteReferences
+enum PhywSprite
 {
-  public:
-    const std::string TANK_TIGER_RIGHT = "./assets/images/tank-tiger-right.png";
+    BULLET,
+    CHOPPER,
+    CHOPPER_SPRITESHEET,
+    LANDING_BASE,
+    RADAR,
+    TAKEOFF_BASE,
+    TANK_PANTHER_UP,
+    TANK_PANTHER_DOWN,
+    TANK_PANTHER_LEFT,
+    TANK_PANTHER_RIGHT,
+    TANK_TIGER_UP,
+    TANK_TIGER_DOWN,
+    TANK_TIGER_LEFT,
+    TANK_TIGER_RIGHT,
+    TREE,
+    TRUCK_FORD_UP,
+    TRUCK_FORD_DOWN,
+    TRUCK_FORD_LEFT,
+    TRUCK_FORD_RIGHT,
+    TRUCK_FORD_KILLED
 };
 
 #endif

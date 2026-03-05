@@ -6,6 +6,7 @@
 MessageFormat error = {Color::Red, LOG_ERROR, "Error"};
 MessageFormat warning = {Color::Yellow, LOG_WARNING, "Warning"};
 MessageFormat info = {Color::Green, LOG_INFO, "Info"};
+MessageFormat logPhyw = {Color::Cyan, LOG_LOG, "Log"};
 
 std::vector<LogEntry> Logger::messages;
 
@@ -22,6 +23,11 @@ void Logger::Error(const std::string& description)
 void Logger::Warning(const std::string& description)
 {
     PrintColored(description, warning);
+}
+
+void Logger::Log(const std::string& description)
+{
+    PrintColored(description, logPhyw);
 }
 
 std::string Logger::CurrentTime()
