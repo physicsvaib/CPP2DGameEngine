@@ -81,7 +81,7 @@ void Game::Setup()
 
     truck.AddComponent<TransformComponent>(glm::vec2(8.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidbodyComponent>(glm::vec2(0.0, 50.0));
-    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_RIGHT, 100, 100);
+    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_RIGHT, 10, 10);
 
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
