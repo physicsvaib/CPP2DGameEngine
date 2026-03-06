@@ -16,7 +16,8 @@ class AssetStore
     ~AssetStore();
 
     void ClearAssets();
-    void AddTexture(const PhywSprite& spriteID, const std::string& filePath);
+    void AddTexture(SDL_Renderer* renderer, const PhywSprite& spriteID,
+                    const std::string& fileName);
     SDL_Texture* GetTexture(const PhywSprite& spriteID) const;
 };
 

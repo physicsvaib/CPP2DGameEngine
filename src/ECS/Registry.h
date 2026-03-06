@@ -76,8 +76,8 @@ void Registry::AddComponent(Entity entity, TArgs&&... args)
 
     entityComponentSignature[entityID].set(compID);
 
-    Logger::Info("Comp Added = " + std::to_string(compID) +
-                 " to entity = " + std::to_string(entityID));
+    Logger::Log("Comp Added = " + std::to_string(compID) +
+                " to entity = " + std::to_string(entityID));
 }
 
 template <typename TComponent> void Registry::RemoveComponent(Entity entity)

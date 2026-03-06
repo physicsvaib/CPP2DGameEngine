@@ -13,7 +13,7 @@ Entity Registry::CreateEntity()
         entityComponentSignature.resize(currentIndex + 1);
     }
 
-    Logger::Info("Created a new Entity with id " + std::to_string(currentIndex));
+    Logger::Log("Created a new Entity with id " + std::to_string(currentIndex));
 
     return newEntity;
 }

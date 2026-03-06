@@ -72,13 +72,16 @@ void Game::Setup()
     Entity tank = registry->CreateEntity();
     Entity truck = registry->CreateEntity();
 
-    tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0), 10.0);
-    tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
-    tank.AddComponent<SpriteComponent>(100, 100);
+    assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
+    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_RIGHT, "truck-ford-down.png");
 
-    truck.AddComponent<TransformComponent>(glm::vec2(8.0, 20.0), glm::vec2(1.0, 1.0), 10.0);
+    tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
+    tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
+    tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100);
+
+    truck.AddComponent<TransformComponent>(glm::vec2(8.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidbodyComponent>(glm::vec2(0.0, 50.0));
-    truck.AddComponent<SpriteComponent>(500, 100);
+    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_RIGHT, 100, 100);
 
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
@@ -169,7 +172,7 @@ void Game::Render()
 {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, 0);
     SDL_RenderClear(renderer);
-    registry->GetSystem<RenderSystem>().Update(renderer);
+    registry->GetSystem<RenderSystem>().Update(renderer, assetStore);
 
     SDL_RenderPresent(renderer);
 }

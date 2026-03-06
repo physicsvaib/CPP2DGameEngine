@@ -1,8 +1,11 @@
 #ifndef SPRITEREFERENCES_H
 #define SPRITEREFERENCES_H
 
+#include <string>
+
 enum PhywSprite
 {
+    NONE,
     BULLET,
     CHOPPER,
     CHOPPER_SPRITESHEET,
@@ -24,5 +27,6 @@ enum PhywSprite
     TRUCK_FORD_RIGHT,
     TRUCK_FORD_KILLED
 };
+const inline std::string SPRITE_ASSETS_PATH = "./assets/images/";
 
 #endif
