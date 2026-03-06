@@ -39,11 +39,11 @@ SDL_Texture* AssetStore::GetTexture(const PhywSprite& spriteID) const
     auto it = textures.find(spriteID);
     if (it != textures.end())
     {
-        Logger::Info("Found the texture ");
         return it->second;
     }
     else
     {
+        Logger::Error("Error of finding texture");
         return nullptr;
     }
 }
