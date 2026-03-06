@@ -73,7 +73,7 @@ void Game::Setup()
     Entity truck = registry->CreateEntity();
 
     assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
-    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_RIGHT, "truck-ford-down.png");
+    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_DOWN, "truck-ford-down.png");
 
     tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
     tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
