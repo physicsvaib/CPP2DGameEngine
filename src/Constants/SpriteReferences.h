@@ -25,7 +25,8 @@ enum PhywSprite
     TRUCK_FORD_DOWN,
     TRUCK_FORD_LEFT,
     TRUCK_FORD_RIGHT,
-    TRUCK_FORD_KILLED
+    TRUCK_FORD_KILLED,
+    TILE_MAP
 };
 const inline std::string SPRITE_ASSETS_PATH = "./assets/images/";
 

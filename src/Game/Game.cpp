@@ -1,10 +1,12 @@
 #include "Game.h"
 #include "../Components/RigidbodyComponent.h"
 #include "../Components/SpriteComponent.h"
+#include "../Components/TileMapComponent.h"
 #include "../Components/TransformComponent.h"
 #include "../Logger/Logger.h"
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
+#include "../Systems/TileMapSystem.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
@@ -89,14 +91,27 @@ void Game::Setup()
 
 void Game::Run()
 {
+
+    TileMapInit();
+
     Setup();
 
     while (is_running)
     {
         ProcessInput();
+        registry->GetSystem<TileMapSystem>().Init(assetStore);
         Update();
         Render();
     }
+}
+
+void Game::TileMapInit()
+{
+    assetStore->AddTexture(renderer, PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.png");
+    Entity tileMap = registry->CreateEntity();
+    tileMap.AddComponent<TileMapComponent>(PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.map", 10,
+                                           3);
+    registry->AddSystem<TileMapSystem>();
 }
 
 void Game::ProcessInput()
@@ -172,6 +187,8 @@ void Game::Render()
 {
     SDL_SetRenderDrawColor(renderer, 80, 80, 80, 0);
     SDL_RenderClear(renderer);
+
+    registry->GetSystem<TileMapSystem>().Update(renderer, assetStore);
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore);
 
     SDL_RenderPresent(renderer);

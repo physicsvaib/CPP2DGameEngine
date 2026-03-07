@@ -20,6 +20,8 @@ class Game
 
     void Run();
 
+    void TileMapInit();
+
     void ProcessInput();
     void Update();
     void Render();
