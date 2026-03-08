@@ -99,7 +99,6 @@ void Game::Run()
     while (is_running)
     {
         ProcessInput();
-        registry->GetSystem<TileMapSystem>().Init(assetStore);
         Update();
         Render();
     }
@@ -107,11 +106,11 @@ void Game::Run()
 
 void Game::TileMapInit()
 {
-    assetStore->AddTexture(renderer, PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.png");
+    auto size =
+        assetStore->AddTileMap(renderer, PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.png");
     Entity tileMap = registry->CreateEntity();
-    tileMap.AddComponent<TileMapComponent>(PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.map", 10,
-                                           3);
-    registry->AddSystem<TileMapSystem>();
+    tileMap.AddComponent<TileMapComponent>(PhywSprite::TILE_MAP, 10, 3, size.first, size.second);
+    registry->AddSystem<TileMapSystem>("./assets/tilemaps/jungle.map");
 }
 
 void Game::ProcessInput()

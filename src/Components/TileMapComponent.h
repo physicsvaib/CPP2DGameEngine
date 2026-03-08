@@ -6,19 +6,19 @@
 struct TileMapComponent
 {
     PhywSprite spriteName;
-    std::string mapPath;
     int rows;
     int cols;
     int tileSizeX;
     int tileSizeY;
 
-    TileMapComponent(PhywSprite sprite = PhywSprite::NONE, std::string mapPath = "", int rows = 0,
-                     int cols = 0)
+    TileMapComponent(PhywSprite sprite = PhywSprite::NONE, int rows = 0, int cols = 0,
+                     int tileSizeX = 0, int tileSizeY = 0)
     {
         this->spriteName = sprite;
-        this->mapPath = mapPath;
         this->rows = rows;
         this->cols = cols;
+        this->tileSizeX = tileSizeX;
+        this->tileSizeY = tileSizeY;
     }
 };
 
