@@ -110,7 +110,7 @@ void Game::TileMapInit()
         assetStore->AddTileMap(renderer, PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.png");
     Entity tileMap = registry->CreateEntity();
     tileMap.AddComponent<TileMapComponent>(PhywSprite::TILE_MAP, 10, 3, size.first, size.second);
-    registry->AddSystem<TileMapSystem>("./assets/tilemaps/jungle.map");
+    registry->AddSystem<TileMapSystem>("./assets/tilemaps/jungle.map", 20, 25);
 }
 
 void Game::ProcessInput()
