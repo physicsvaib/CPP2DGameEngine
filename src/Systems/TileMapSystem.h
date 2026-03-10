@@ -18,7 +18,7 @@ class TileMapSystem : public System
     void MakeCell(const TileMapComponent& tileMap, SDL_Renderer* renderer, SDL_Texture* texture,
                   int x, int y, int locX, int locY);
     int tileSize = 32;
-    double tileScale = 3.0;
+    double tileScale = 5.0;
 };
 
 #endif

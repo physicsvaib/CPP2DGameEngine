@@ -13,7 +13,7 @@ class System
     System() = default;
     ~System() = default;
 
-    void AddEntityToSystem(Entity entity);
+    virtual void AddEntityToSystem(Entity entity);
     void RemoveEntityFromSystem(Entity entity);
 
     const std::vector<Entity>& GetSystemEntities() const;
@@ -21,7 +21,7 @@ class System
 
     template <typename TComponent> void RequireComponent();
 
-  private:
+  protected:
     Signature componentSignature;
     std::vector<Entity> entities;
 };

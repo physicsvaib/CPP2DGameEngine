@@ -4,6 +4,7 @@
 void System::AddEntityToSystem(Entity entity)
 {
     entities.push_back(entity);
+    // lets just sort stuff here why on update
 }
 
 void System::RemoveEntityFromSystem(Entity entity)

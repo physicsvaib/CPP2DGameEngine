@@ -56,7 +56,6 @@ void TileMapSystem::Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& 
 void TileMapSystem::MakeCell(const TileMapComponent& tileMap, SDL_Renderer* renderer,
                              SDL_Texture* texture, int x, int y, int locX, int locY)
 {
-
     SDL_Rect src{x * tileSize, y * tileSize, tileSize, tileSize};
     SDL_Rect dst{locX * tileScale * tileSize, locY * tileScale * tileSize,
                  static_cast<int>(tileSize * tileScale), static_cast<int>(tileScale * tileSize)};
