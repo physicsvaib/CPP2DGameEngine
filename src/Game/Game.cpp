@@ -40,8 +40,8 @@ void Game::Initialize()
 
     GetDisplayModeDimenesions();
 
-    window = SDL_CreateWindow("Aye 2D Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              window_width, window_height, SDL_WINDOW_BORDERLESS);
+    window = SDL_CreateWindow("Aye 2D Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_width,
+                              window_height, SDL_WINDOW_BORDERLESS);
 
     if (!window)
     {
@@ -78,9 +78,16 @@ void Game::Setup()
     assetStore->AddTexture(renderer, PhywSprite::CHOPPER_SPRITESHEET, "chopper.png");
 
     helicopter.AddComponent<TransformComponent>(glm::vec2(30.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0,
-                                             32, 32);
-    helicopter.AddComponent<AnimationComponent>(2, 5, true);
+    helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0, 32, 32);
+    helicopter.AddComponent<AnimationComponent>(2, 100, true);
+
+    Entity radar = registry->CreateEntity();
+
+    assetStore->AddTexture(renderer, PhywSprite::RADAR, "radar.png");
+
+    radar.AddComponent<TransformComponent>(glm::vec2(300.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    radar.AddComponent<SpriteComponent>(PhywSprite::RADAR, 100, 100, 11, 0, 0, 64, 64);
+    radar.AddComponent<AnimationComponent>(8, 3, true, 64);
 
     // Entity tank = registry->CreateEntity();
     // Entity truck = registry->CreateEntity();
@@ -121,8 +128,7 @@ void Game::Run()
 
 void Game::TileMapInit()
 {
-    auto size =
-        assetStore->AddTileMap(renderer, PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.png");
+    auto size = assetStore->AddTileMap(renderer, PhywSprite::TILE_MAP, "./assets/tilemaps/jungle.png");
     Entity tileMap = registry->CreateEntity();
     tileMap.AddComponent<TileMapComponent>(PhywSprite::TILE_MAP, 10, 3, size.first, size.second);
     registry->AddSystem<TileMapSystem>("./assets/tilemaps/jungle.map", 20, 25);
@@ -173,7 +179,7 @@ void Game::Update()
 {
     TimeLogic();
     registry->GetSystem<MovementSystem>().Update(deltaTime);
-    registry->GetSystem<AnimationSystem>().Update(deltaTime);
+    registry->GetSystem<AnimationSystem>().Update();
 
     registry->Update();
 

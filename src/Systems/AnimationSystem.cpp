@@ -9,30 +9,26 @@ AnimationSystem::AnimationSystem()
     RequireComponent<AnimationComponent>();
 }
 
-void AnimationSystem::Update(double deltaTime)
+void AnimationSystem::Update()
 {
     for (Entity entity : GetSystemEntities())
     {
         SpriteComponent& spriteComp = entity.GetComponent<SpriteComponent>();
         AnimationComponent& animComp = entity.GetComponent<AnimationComponent>();
 
-        animComp.currentFrame++;
+        animComp.currentFrame =
+            static_cast<int>(((SDL_GetTicks() - animComp.startTime) * animComp.frameRate / 1000.0)) %
+            animComp.numOfFrames;
+
+        // animComp.currentFrame = static_cast<int>(1000 * (elapsedTime / tillNextFrame));
 
         if (animComp.currentFrame >= animComp.numOfFrames)
         {
-            if (animComp.shouldLoop)
-            {
-                animComp.currentFrame = 0;
-            }
-            else
-            {
-                animComp.currentFrame = animComp.numOfFrames - 1;
-            }
+            animComp.currentFrame = animComp.shouldLoop ? 0 : animComp.numOfFrames - 1;
         }
 
         int offsetX = animComp.currentFrame * animComp.singleSpriteSize;
-        spriteComp.srcRect =
-            SDL_Rect{offsetX, 0, animComp.singleSpriteSize, animComp.singleSpriteSize};
+        spriteComp.srcRect = SDL_Rect{offsetX, 0, animComp.singleSpriteSize, animComp.singleSpriteSize};
 
         // osset = currentFrame
         // offset = (currentFrame %  frameRate) % totalFrames

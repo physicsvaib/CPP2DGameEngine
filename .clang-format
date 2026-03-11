@@ -20,4 +20,4 @@ AllowShortLoopsOnASingleLine: false
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignTrailingComments: true
-ColumnLimit: 100
+ColumnLimit: 120
