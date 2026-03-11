@@ -11,13 +11,16 @@ struct AnimationComponent
     int frameRate;
     bool shouldLoop;
     int startTime;
+    int singleSpriteSize;
 
-    AnimationComponent(int numOfFrames, int frameRate, bool shouldLoop)
+    AnimationComponent(int numOfFrames = 1, int frameRate = 1, bool shouldLoop = true,
+                       int singleSpriteSize = 32)
     {
         this->numOfFrames = numOfFrames;
         this->currentFrame = 1;
         this->frameRate = frameRate;
         this->shouldLoop = shouldLoop;
+        this->singleSpriteSize = singleSpriteSize;
         this->startTime = SDL_GetTicks();
     }
 };
