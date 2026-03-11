@@ -8,7 +8,6 @@ class AnimationSystem : public System
   public:
     AnimationSystem();
     void Update(double deltaTime);
-    void UpdateAnimationFrame();
 };
 
 #endif

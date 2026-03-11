@@ -5,7 +5,7 @@
 #include "../ECS/Registry.h"
 
 const int FPS = 3;
-const int MILLISECONDS_PER_FRAME = 1000 / FPS;
+static const int MILLISECONDS_PER_FRAME = 1000 / FPS;
 const bool CAP_FPS = true;
 
 class Game

@@ -7,24 +7,26 @@ AnimationSystem::AnimationSystem()
 {
     RequireComponent<SpriteComponent>();
     RequireComponent<AnimationComponent>();
-    RequireComponent<TransformComponent>();
 }
 
 void AnimationSystem::Update(double deltaTime)
 {
     for (Entity entity : GetSystemEntities())
     {
-        SpriteComponent spriteComp = entity.GetComponent<SpriteComponent>();
-        AnimationComponent animComp = entity.GetComponent<AnimationComponent>();
-        TransformComponent transformComp = entity.GetComponent<TransformComponent>();
+        SpriteComponent& spriteComp = entity.GetComponent<SpriteComponent>();
+        AnimationComponent& animComp = entity.GetComponent<AnimationComponent>();
 
-        animComp.currentFrame += 1;
+        animComp.currentFrame++;
 
         if (animComp.currentFrame >= animComp.numOfFrames)
         {
             if (animComp.shouldLoop)
             {
                 animComp.currentFrame = 0;
+            }
+            else
+            {
+                animComp.currentFrame = animComp.numOfFrames - 1;
             }
         }
 
