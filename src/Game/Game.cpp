@@ -71,19 +71,27 @@ void Game::Destroy()
 void Game::Setup()
 {
 
-    Entity tank = registry->CreateEntity();
-    Entity truck = registry->CreateEntity();
+    Entity helicopter = registry->CreateEntity();
 
-    assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
-    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_DOWN, "truck-ford-down.png");
+    assetStore->AddTexture(renderer, PhywSprite::CHOPPER_SPRITESHEET, "chopper.png");
 
-    tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
-    tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
-    tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100, 11);
+    helicopter.AddComponent<TransformComponent>(glm::vec2(30.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0,
+                                             32, 32);
 
-    truck.AddComponent<TransformComponent>(glm::vec2(8.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
-    truck.AddComponent<RigidbodyComponent>(glm::vec2(0.0, 50.0));
-    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_DOWN, 300, 300, 12);
+    // Entity tank = registry->CreateEntity();
+    // Entity truck = registry->CreateEntity();
+
+    // assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
+    // assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_DOWN, "truck-ford-down.png");
+
+    // tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0), 0.0);
+    // tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
+    // tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100, 11);
+
+    // truck.AddComponent<TransformComponent>(glm::vec2(8.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
+    // truck.AddComponent<RigidbodyComponent>(glm::vec2(0.0, 50.0));
+    // truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_DOWN, 300, 300, 12);
 
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
