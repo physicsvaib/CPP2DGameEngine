@@ -1,11 +1,14 @@
 #include "Game.h"
 #include "../Components/AnimationComponent.h"
+#include "../Components/BoxColliderComponent.h"
 #include "../Components/RigidbodyComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/TileMapComponent.h"
 #include "../Components/TransformComponent.h"
 #include "../Logger/Logger.h"
 #include "../Systems/AnimationSystem.h"
+#include "../Systems/CollisionRenderSystem.h"
+#include "../Systems/CollisionSystem.h"
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
 #include "../Systems/TileMapSystem.h"
@@ -73,42 +76,43 @@ void Game::Destroy()
 void Game::Setup()
 {
 
-    Entity helicopter = registry->CreateEntity();
+    // Entity helicopter = registry->CreateEntity();
 
-    assetStore->AddTexture(renderer, PhywSprite::CHOPPER_SPRITESHEET, "chopper.png");
+    // assetStore->AddTexture(renderer, PhywSprite::CHOPPER_SPRITESHEET, "chopper.png");
 
-    helicopter.AddComponent<TransformComponent>(glm::vec2(30.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0, 32, 32);
-    helicopter.AddComponent<AnimationComponent>(2, 100, true);
+    // helicopter.AddComponent<TransformComponent>(glm::vec2(30.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    // helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0, 32, 32);
+    // helicopter.AddComponent<AnimationComponent>(2, 3, true);
 
-    Entity radar = registry->CreateEntity();
+    // Entity radar = registry->CreateEntity();
 
-    assetStore->AddTexture(renderer, PhywSprite::RADAR, "radar.png");
+    // assetStore->AddTexture(renderer, PhywSprite::RADAR, "radar.png");
 
-    radar.AddComponent<TransformComponent>(glm::vec2(300.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    radar.AddComponent<SpriteComponent>(PhywSprite::RADAR, 100, 100, 11, 0, 0, 64, 64);
-    radar.AddComponent<AnimationComponent>(8, 3, true, 64);
+    // radar.AddComponent<TransformComponent>(glm::vec2(300.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    // radar.AddComponent<SpriteComponent>(PhywSprite::RADAR, 100, 100, 11, 0, 0, 64, 64);
+    // radar.AddComponent<AnimationComponent>(8, 3, true, 64);
 
-    // Entity tank = registry->CreateEntity();
-    // Entity truck = registry->CreateEntity();
+    Entity tank = registry->CreateEntity();
+    Entity truck = registry->CreateEntity();
 
-    // assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT,
-    // "tank-panther-right.png"); assetStore->AddTexture(renderer,
-    // PhywSprite::TRUCK_FORD_DOWN, "truck-ford-down.png");
+    assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
+    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_DOWN, "truck-ford-down.png");
 
-    // tank.AddComponent<TransformComponent>(glm::vec2(30.0, 10.0), glm::vec2(1.0, 1.0),
-    // 0.0); tank.AddComponent<RigidbodyComponent>(glm::vec2(50.0, 0.0));
-    // tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100, 11);
+    tank.AddComponent<TransformComponent>(glm::vec2(0.0, 0.0), glm::vec2(1.0, 1.0), 0.0);
+    tank.AddComponent<RigidbodyComponent>(glm::vec2(5.0, 0.0));
+    tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100, 11);
+    tank.AddComponent<BoxColliderComponent>(glm::vec2(100, 100), glm::vec2(0, 0));
 
-    // truck.AddComponent<TransformComponent>(glm::vec2(8.0, 20.0),
-    // glm::vec2(1.0, 1.0), 0.0);
-    // truck.AddComponent<RigidbodyComponent>(glm::vec2(0.0, 50.0));
-    // truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_DOWN, 300, 300,
-    // 12);
+    truck.AddComponent<TransformComponent>(glm::vec2(150.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
+    truck.AddComponent<RigidbodyComponent>(glm::vec2(-5.0, 0.0));
+    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_DOWN, 100, 100, 12);
+    truck.AddComponent<BoxColliderComponent>(glm::vec2(100, 100), glm::vec2(0, 0));
 
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
     registry->AddSystem<AnimationSystem>();
+    registry->AddSystem<CollisionSystem>();
+    registry->AddSystem<CollisionRenderSystem>();
 }
 
 void Game::Run()
@@ -180,7 +184,7 @@ void Game::Update()
     TimeLogic();
     registry->GetSystem<MovementSystem>().Update(deltaTime);
     registry->GetSystem<AnimationSystem>().Update();
-
+    registry->GetSystem<CollisionSystem>().Update();
     registry->Update();
 
     // TODO: MovementSystem.Update()
@@ -211,6 +215,7 @@ void Game::Render()
 
     registry->GetSystem<TileMapSystem>().Update(renderer, assetStore);
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore);
+    registry->GetSystem<CollisionRenderSystem>().Update(renderer);
 
     SDL_RenderPresent(renderer);
 }

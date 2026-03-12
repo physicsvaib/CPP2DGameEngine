@@ -20,8 +20,6 @@ void AnimationSystem::Update()
             static_cast<int>(((SDL_GetTicks() - animComp.startTime) * animComp.frameRate / 1000.0)) %
             animComp.numOfFrames;
 
-        // animComp.currentFrame = static_cast<int>(1000 * (elapsedTime / tillNextFrame));
-
         if (animComp.currentFrame >= animComp.numOfFrames)
         {
             animComp.currentFrame = animComp.shouldLoop ? 0 : animComp.numOfFrames - 1;
@@ -29,10 +27,5 @@ void AnimationSystem::Update()
 
         int offsetX = animComp.currentFrame * animComp.singleSpriteSize;
         spriteComp.srcRect = SDL_Rect{offsetX, 0, animComp.singleSpriteSize, animComp.singleSpriteSize};
-
-        // osset = currentFrame
-        // offset = (currentFrame %  frameRate) % totalFrames
-        // offset *= singleSize
-        // animComp.frameRate
     }
 }
