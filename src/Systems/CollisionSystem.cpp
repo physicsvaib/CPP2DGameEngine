@@ -19,11 +19,13 @@ bool AreEntitiesColliding(Entity& ent1, Entity& ent2)
     auto collider2 = ent2.GetComponent<BoxColliderComponent>();
 
     // X Axis
-    bool alignOnX = (trans1.location.x < trans2.location.x + collider2.size.x) &&
-                    trans1.location.x + collider1.size.x > trans2.location.x;
+    bool alignOnX =
+        (trans1.location.x + collider1.offset.x < trans2.location.x + collider2.offset.x + collider2.size.x) &&
+        trans1.location.x + collider1.offset.x + collider1.size.x > trans2.location.x + collider2.offset.x;
 
-    bool alignOnY = (trans1.location.y < trans2.location.y + collider2.size.y) &&
-                    trans1.location.y + collider1.size.y > trans2.location.y;
+    bool alignOnY =
+        (trans1.location.y + collider1.offset.y < trans2.location.y + collider2.offset.y + collider2.size.y) &&
+        trans1.location.y + collider1.offset.y + collider1.size.y > trans2.location.y + collider2.offset.y;
 
     return alignOnX && alignOnY;
 }

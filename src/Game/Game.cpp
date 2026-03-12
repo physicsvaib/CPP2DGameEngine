@@ -101,7 +101,7 @@ void Game::Setup()
     tank.AddComponent<TransformComponent>(glm::vec2(0.0, 0.0), glm::vec2(1.0, 1.0), 0.0);
     tank.AddComponent<RigidbodyComponent>(glm::vec2(5.0, 0.0));
     tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100, 11);
-    tank.AddComponent<BoxColliderComponent>(glm::vec2(100, 100), glm::vec2(0, 0));
+    tank.AddComponent<BoxColliderComponent>(glm::vec2(100, 100), glm::vec2(50, 0));
 
     truck.AddComponent<TransformComponent>(glm::vec2(150.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidbodyComponent>(glm::vec2(-5.0, 0.0));
