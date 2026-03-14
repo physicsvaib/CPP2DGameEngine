@@ -9,8 +9,10 @@ void System::AddEntityToSystem(Entity entity)
 
 void System::RemoveEntityFromSystem(Entity entity)
 {
-    entities.erase(std::remove_if(entities.begin(), entities.end(),
-                                  [&entity](Entity other) { return entity == other; }));
+    Logger::Info("Trying to remove " + std::to_string(entity.GetID()) + " " + componentSignature.to_string());
+    entities.erase(
+        std::remove_if(entities.begin(), entities.end(), [&entity](Entity other) { return entity == other; }),
+        entities.end());
 
     // entities.erase();
 }

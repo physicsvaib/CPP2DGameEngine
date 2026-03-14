@@ -32,16 +32,24 @@ bool AreEntitiesColliding(Entity& ent1, Entity& ent2)
 
 void CollisionSystem::Update()
 {
+    std::string ids = "";
     auto toLoopEntities = GetSystemEntities();
     for (auto it = toLoopEntities.begin(); it != toLoopEntities.end(); it++)
     {
-        for (auto itInner = it + 1; itInner != toLoopEntities.end(); itInner++)
+        for (auto otherIt = it + 1; otherIt != toLoopEntities.end(); otherIt++)
         {
-            bool areColliding = AreEntitiesColliding(*it, *itInner);
+            bool areColliding = AreEntitiesColliding(*it, *otherIt);
             if (areColliding)
             {
-                Logger::Info(std::to_string(it->GetID()) + " is colliding with " + std::to_string(itInner->GetID()));
+                Logger::Info(std::to_string(it->GetID()) + " is colliding with " + std::to_string(otherIt->GetID()));
+                it->Kill();
+                otherIt->Kill();
             }
         }
+        ids += std::to_string(it->GetID()) + ", ";
     }
+
+#ifdef DEBUG_SYSTEM
+    Logger::Info("Collision System on " + ids);
+#endif
 }

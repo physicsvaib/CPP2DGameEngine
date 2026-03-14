@@ -20,7 +20,7 @@
 Game::Game()
 {
     Logger::Log("Game Constructor Called");
-    is_running = false;
+    isRunning = false;
     registry = std::make_unique<Registry>();
     assetStore = std::make_unique<AssetStore>();
 }
@@ -61,7 +61,7 @@ void Game::Initialize()
 
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
-    is_running = true;
+    isRunning = true;
 }
 
 void Game::Destroy()
@@ -75,39 +75,48 @@ void Game::Destroy()
 
 void Game::Setup()
 {
+    SetupSystems();
+    SetupTextures();
+    SetupEntitesWithComponents();
+}
 
-    // Entity helicopter = registry->CreateEntity();
-
-    // assetStore->AddTexture(renderer, PhywSprite::CHOPPER_SPRITESHEET, "chopper.png");
-
-    // helicopter.AddComponent<TransformComponent>(glm::vec2(30.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    // helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0, 32, 32);
-    // helicopter.AddComponent<AnimationComponent>(2, 3, true);
-
-    // Entity radar = registry->CreateEntity();
-
-    // assetStore->AddTexture(renderer, PhywSprite::RADAR, "radar.png");
-
-    // radar.AddComponent<TransformComponent>(glm::vec2(300.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
-    // radar.AddComponent<SpriteComponent>(PhywSprite::RADAR, 100, 100, 11, 0, 0, 64, 64);
-    // radar.AddComponent<AnimationComponent>(8, 3, true, 64);
-
+void Game::SetupEntitesWithComponents()
+{
     Entity tank = registry->CreateEntity();
     Entity truck = registry->CreateEntity();
+    Entity helicopter = registry->CreateEntity();
+    Entity radar = registry->CreateEntity();
 
-    assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
-    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_DOWN, "truck-ford-down.png");
+    helicopter.AddComponent<TransformComponent>(glm::vec2(30.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    helicopter.AddComponent<SpriteComponent>(PhywSprite::CHOPPER_SPRITESHEET, 100, 100, 10, 0, 0, 32, 32);
+    helicopter.AddComponent<AnimationComponent>(2, 3, true);
+
+    radar.AddComponent<TransformComponent>(glm::vec2(300.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
+    radar.AddComponent<SpriteComponent>(PhywSprite::RADAR, 100, 100, 11, 0, 0, 64, 64);
+    radar.AddComponent<AnimationComponent>(8, 3, true, 64);
+    // radar.Kill();
+
+    truck.AddComponent<TransformComponent>(glm::vec2(150.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
+    truck.AddComponent<RigidbodyComponent>(glm::vec2(-5.0, 0.0));
+    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_LEFT, 100, 100, 11);
+    truck.AddComponent<BoxColliderComponent>(glm::vec2(100, 80), glm::vec2(0, 0));
 
     tank.AddComponent<TransformComponent>(glm::vec2(0.0, 0.0), glm::vec2(1.0, 1.0), 0.0);
     tank.AddComponent<RigidbodyComponent>(glm::vec2(5.0, 0.0));
     tank.AddComponent<SpriteComponent>(PhywSprite::TANK_PANTHER_RIGHT, 100, 100, 11);
     tank.AddComponent<BoxColliderComponent>(glm::vec2(80, 60), glm::vec2(10, 20));
+}
 
-    truck.AddComponent<TransformComponent>(glm::vec2(150.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
-    truck.AddComponent<RigidbodyComponent>(glm::vec2(-5.0, 0.0));
-    truck.AddComponent<SpriteComponent>(PhywSprite::TRUCK_FORD_DOWN, 100, 100, 12);
-    truck.AddComponent<BoxColliderComponent>(glm::vec2(50, 100), glm::vec2(25, 0));
+void Game::SetupTextures()
+{
+    assetStore->AddTexture(renderer, PhywSprite::CHOPPER_SPRITESHEET, "chopper.png");
+    assetStore->AddTexture(renderer, PhywSprite::TANK_PANTHER_RIGHT, "tank-panther-right.png");
+    assetStore->AddTexture(renderer, PhywSprite::TRUCK_FORD_LEFT, "truck-ford-left.png");
+    assetStore->AddTexture(renderer, PhywSprite::RADAR, "radar.png");
+}
 
+void Game::SetupSystems()
+{
     registry->AddSystem<MovementSystem>();
     registry->AddSystem<RenderSystem>();
     registry->AddSystem<AnimationSystem>();
@@ -122,7 +131,7 @@ void Game::Run()
 
     Setup();
 
-    while (is_running)
+    while (isRunning)
     {
         ProcessInput();
         Update();
@@ -157,12 +166,16 @@ void Game::KeyBoardInput()
         switch (sdl_event.type)
         {
         case SDL_QUIT:
-            is_running = false;
+            isRunning = false;
             break;
         case SDL_KEYDOWN:
             if (sdl_event.key.keysym.sym == SDLK_ESCAPE)
             {
-                is_running = false;
+                isRunning = false;
+            }
+            else if (sdl_event.key.keysym.sym == SDLK_p)
+            {
+                isDebugging = !isDebugging;
             }
         }
     }
@@ -186,8 +199,6 @@ void Game::Update()
     registry->GetSystem<AnimationSystem>().Update();
     registry->GetSystem<CollisionSystem>().Update();
     registry->Update();
-
-    // TODO: MovementSystem.Update()
 }
 
 void Game::TimeLogic()
@@ -215,7 +226,11 @@ void Game::Render()
 
     registry->GetSystem<TileMapSystem>().Update(renderer, assetStore);
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore);
-    registry->GetSystem<CollisionRenderSystem>().Update(renderer);
+
+    if (isDebugging)
+    {
+        registry->GetSystem<CollisionRenderSystem>().Update(renderer);
+    }
 
     SDL_RenderPresent(renderer);
 }

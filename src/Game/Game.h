@@ -18,6 +18,12 @@ class Game
     void Destroy();
     void Setup();
 
+    void SetupEntitesWithComponents();
+
+    void SetupTextures();
+
+    void SetupSystems();
+
     void Run();
 
     void TileMapInit();
@@ -32,7 +38,7 @@ class Game
     void KeyBoardInput();
     void GetDisplayModeDimenesions();
 
-    bool is_running;
+    bool isRunning;
     struct SDL_Texture* tank_texture;
     double deltaTime = 0;
 
@@ -40,6 +46,8 @@ class Game
     int window_height;
 
     int ms_passed = 0;
+
+    bool isDebugging = false;
 
     std::unique_ptr<Registry> registry;
     std::unique_ptr<AssetStore> assetStore;

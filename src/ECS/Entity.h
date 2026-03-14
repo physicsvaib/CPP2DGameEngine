@@ -25,6 +25,7 @@ class Entity
     template <typename TComponent> void RemoveComponent();
     template <typename TComponent> bool HasComponent();
     template <typename TComponent> TComponent& GetComponent();
+    void Kill();
 
   private:
     int id;
@@ -49,7 +50,7 @@ template <typename TComponent> bool Entity::HasComponent()
 
 template <typename TComponent> TComponent& Entity::GetComponent()
 {
-    return parent->template GetComponenet<TComponent>(*this);
+    return parent->template GetComponent<TComponent>(*this);
 }
 
 #endif

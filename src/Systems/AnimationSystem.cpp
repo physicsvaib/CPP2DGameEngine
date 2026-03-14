@@ -11,6 +11,7 @@ AnimationSystem::AnimationSystem()
 
 void AnimationSystem::Update()
 {
+    std::string ids = "";
     for (Entity entity : GetSystemEntities())
     {
         SpriteComponent& spriteComp = entity.GetComponent<SpriteComponent>();
@@ -27,5 +28,11 @@ void AnimationSystem::Update()
 
         int offsetX = animComp.currentFrame * animComp.singleSpriteSize;
         spriteComp.srcRect = SDL_Rect{offsetX, 0, animComp.singleSpriteSize, animComp.singleSpriteSize};
+        ids += std::to_string(entity.GetID()) + ", ";
     }
+
+#ifdef DEBUG_SYSTEM
+    if (ids != "")
+        Logger::Info("Animation System on " + ids);
+#endif
 }
