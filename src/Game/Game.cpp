@@ -94,7 +94,7 @@ void Game::SetupEntitesWithComponents()
     radar.AddComponent<TransformComponent>(glm::vec2(300.0, 30.0), glm::vec2(1.0, 1.0), 0.0);
     radar.AddComponent<SpriteComponent>(PhywSprite::RADAR, 100, 100, 11, 0, 0, 64, 64);
     radar.AddComponent<AnimationComponent>(8, 3, true, 64);
-    // radar.Kill();
+    radar.Kill();
 
     truck.AddComponent<TransformComponent>(glm::vec2(150.0, 20.0), glm::vec2(1.0, 1.0), 0.0);
     truck.AddComponent<RigidbodyComponent>(glm::vec2(-5.0, 0.0));
